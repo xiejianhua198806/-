@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>显示商品分类</title>
+		<link rel="stylesheet" type="text/css" href="iconfont/iconfont.css" />
+	</head>
+	<style type="text/css">
+		.iconfont {
+			margin: 0 10px;
+			cursor: pointer;
+		}
+	</style>
+
+	<body>
+
+		<header>
+			<!--<div class="btnbox posleft"></div>-->
+			<div class="btnbox posright">
+				<button><h2>购物车</h2></button>
+			</div>
+			<h2>商品分类</h2>
+		</header>
+		<article>
+			<nav class="classlist_nav"></nav>
+			<section class="classlist_box clearboth">
+
+			</section>
+		</article>
+		<footer>
+			<i></i>
+		</footer>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(function() { //自调用用于默认加载的东西（2）
+				getClassNav(function(data) {
+					//console.log(data)  从返回的函数可以判断出来  返回的是数组中包含的对象
+					var $nav = $(".classlist_nav");
+					$.each(data, function(i, pra) {
+						var icon = $("<i class='iconfont'>" + pra.icon + "</i>"); //显示商品图标
+						$nav.append(icon); //将图标插入到HTML页面
+
+						//点击icon实现 icon对应不同内容的实现（6.0）
+						icon.on('click', function() {
+							//点击icon调用不同的函数处理，这里可以直接获取到pra对应的classId
+							//pra.classID;
+							getproductlist({
+								classID: pra.classID
+							}, listcallback); //调用下面写好的方法
+
+						});
+					});
+				});
+
+				//显示默认商品（4）
+
+				/*方法一：直接用匿名函数处理回调函数*/
+				//getproductlist(function(data) { //空对像默认是参数
+				//console.log("123") //测试默认参数对象写的是否正确	
+				//});
+
+				/*方法二：用有名函数处理回调函数（4.1）*/
+				getproductlist(listcallback); //这里添加一个classId可以实现点击icon切换不同的内容（5.9）
+				function listcallback(data) { //函数一个特点 谁调用谁传参数
+					var $classlist_box = $('.classlist_box');
+					$classlist_box.html(""); //请空 点击第二个 方便快速加载
+					$.each(data, function(i, pra) {
+						var goodsBox = $('<div class="list_goodsbox floatleft">');
+						var imgbox = $('<div class="imgbox"><img src="' + pra.goodsListImg + '"/></div>'); //这里的img用于懒加载
+						var titlebox = $('<div class="titlebox">' + pra.goodsName + '</div>');
+						var pricebox = $('<div class="pricebox">' + pra.price + '</div>');
+						goodsBox.append(imgbox);
+						goodsBox.append(titlebox);
+						goodsBox.append(pricebox);
+						$classlist_box.append(goodsBox); //告诉我们是一个jquery对象
+
+						
+						//imgbox.height(goodsBox.width()*0.8);//下面代码可以控制图片的高度
+						
+						//点击显示商品详情
+						goodsBox.on('click',function(){
+							//在传参数的时候需要编码解码
+							/*encodeURI()：编码，decodeURI()：解码*/
+							var pra_code=encodeURI(pra.goodsID);
+							window.location="goodsDtailes.html?goodsID="+pra_code;
+						});
+					});
+				}
+			});
+
+			//获取商品列表分类参数（1）
+			function getClassNav(callback) { //传递一个参数用于处理返回函数
+				$.get('http://datainfo.duapp.com/shopdata/getclass.php',
+					//根据api文档可知，不需要前端传回相关参数，可以直接使用function；
+					function(data) { //data后台返回的数据 分为两种 一个是json 另外一个是0
+						//console.log(typeof callback);
+						if(typeof callback == 'function') {
+							callback(JSON.parse(data)); //JSON.parse() 方法用于将一个 JSON 字符串转换为对象
+						};
+					});
+			};
+
+			//获取商品或者列表(3)
+			function getproductlist(opt, callback) { //opt为客户传递的参数对象 callback返回对象
+				var pra = { //设置默认的参数
+					classID: "",
+					goodsID: "",
+					pageCode: 0,
+					linenumber: 10
+				};
+
+				//判断用户传入参数的个数（5）
+				var nompra = arguments;
+				//console.log(nompra.length);//console出来的是2
+				if(nompra.length == 1) { //如果用户是否只传了一个参数
+					if(typeof nompra[0] == 'function') { //如果用户传入的第一个参数 是function
+						var callback = nompra[0]; //就把赋值给 callback
+					}
+				} else {
+					var callback = callback;
+				};
+
+				$.extend(pra, opt); //pot对象会覆盖前面的pra,相同的名会覆盖，不同名的会保留
+
+				//getjson专门用于处理jsonp数据，将其转化成json，在路径末尾加?callback=?,就会随机返回随机函数名
+				$.getJSON('http://datainfo.duapp.com/shopdata/getGoods.php?callback=?', /*请求数据，通过$.getJSON()访问jsonp接口*/
+					pra,
+					function(data) {
+						if(typeof callback == 'function') {
+							callback(data); //使用typeof来data判断数据类型 入类型是string就转码 object责不用
+						}
+					})
+			};
+			//接收地址栏参数
+			function getUrlPra(praName) {
+				var praText = window.location.search.substr(1); //search截取？后面的地址,subStr()从第一位开始截取
+				var arr = praText.split('&'); //以&号进行切割 分成前后两个参数
+				var arrPra = []; //由参数值和参数名组合成的数据
+				for(var i = 0; i < arr.length; i++) {
+					arrPra[i] = arr[i].split('=');
+				};
+				for(var x = 0; x < arrPra.length; x++) {
+					if(arrPra[x][0] = praName) {
+						return arrPra[x][1];
+					};
+				};
+				return false;
+			};
+			//商品名称搜索函数
+			function selectedGo(opt, callback) {
+				var pra = {
+					selectText: '',
+					pageCode: 0,
+					linenumber: 6 //每页显示多少条数据	
+				};
+				$.extend(pra, opt);
+				//不适用参数判断 直接ajax
+				$.getJSON('http://datainfo.duapp.com/shopdata/selectGoodes.php?callback=?', pra, function(data) {
+					if(typeof callback == 'function') {
+						callback(data);
+					};
+				});
+			};
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>显示搜索商品页面</title>
+	</head>
+
+	<body>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			//显示搜索商品
+			$(function() {
+				var selectText = getUrlPra("selectText");
+				if(selectText) {
+					selectedGo({
+						selectText: selectText
+					}, function(data) {
+						if(data) {//搜索到有数据的页面
+							$.each(data, function(i, pra) {
+								console.log(pra.goodsName);//显示搜索到的商品
+							});
+						} else if(data == 0) {//没有搜索到数据的页面
+
+						};
+					});
+				};
+			});
+
+			//接收地址栏参数
+			function getUrlPra(praName) {
+				var praText = window.location.search.substr(1);//search截取？后面的地址,subStr()从第一位开始截取
+				var arr = praText.split('&');//以&号进行切割 分成前后两个参数
+				var arrPra = [];//由参数值和参数名组合成的数据
+				for(var i = 0; i < arr.length; i++) {
+					arrPra[i] = arr[i].split('=');
+				};
+				for(var x = 0; x < arrPra.length; x++) {
+					if(arrPra[x][0] = praName) {
+						return arrPra[x][1];
+					};
+				};
+				return false;
+			};
+			//商品名称搜索函数
+			function selectedGo(opt, callback) {
+				var pra = {
+					selectText: '',
+					pageCode: 0,
+					linenumber: 6 //每页显示多少条数据	
+				};
+				$.extend(pra, opt);
+				//不适用参数判断 直接ajax
+				$.getJSON('http://datainfo.duapp.com/shopdata/selectGoodes.php?callback=?', pra, function(data) {
+					if(typeof callback == 'function') {
+						callback(data);
+					};
+				});
+			};
+		</script>
+	</body>
+
+</html>

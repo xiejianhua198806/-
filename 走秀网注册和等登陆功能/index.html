@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<input type="text" id="userID" />
+		<input type="password" id="password" />
+		<button id="registerBtn">注册</button>
+		<button id="loginBtn">登录</button>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			document.getElementById('registerBtn').onclick = function() {
+				userRigister();
+			};
+			document.getElementById('loginBtn').onclick = function() {
+				userLogin();
+			};
+
+			function userRigister() {
+				userSub("register",function(data){
+					if(data=="0"){
+						alert('用户名重复，请更换！')
+					}else if(data=="1"){
+						alert('注册成功')
+					}else{
+						alert('网络不好，请重新注册')
+					}
+				});
+			};
+			function userLogin() {
+				userSub("login",function(data){
+					if(data=="0"){
+						alert('用户名重复，请更换！')
+					}else if(data=="1"){
+						alert('注册成功')
+					}else{
+						alert('网络不好，请重新注册')
+					}
+				});
+			};
+			function userSub(status,callback) {
+				var user = getuserval(); 
+				if(user) {
+					$.get("http://datainfo.duapp.com/shopdata/userinfo.php", {
+						status: status,
+						userID: user.userID,
+						password: user.password
+					}, function(data) {
+						//console.log(data)
+						if(callback){//判断返回的是不是函数
+							callback(data);
+						};
+					});
+				};
+			};
+			//获取用户名密码（1）
+			function getuserval() {
+				var user = {
+					userID: document.querySelector("#userID").value,
+					password: document.querySelector("#password").value
+				};
+				return user;
+			};
+		</script>
+
+	</body>
+
+</html>

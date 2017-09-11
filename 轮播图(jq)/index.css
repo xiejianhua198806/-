@@ -1,0 +1,63 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+#lunbotu{
+	width: 500px;
+	height: 300px;
+	margin: 100px auto;
+	position: relative;
+}
+ul{
+	width: 500px;
+	height: 300px;
+	border: 2px solid tan;
+	overflow: hidden;
+}
+ul li{
+	width: 500px;
+	height: 300px;
+	float: left;
+}
+ul li img{
+	display: inline-block;
+	width: 100%;
+	height: auto;
+}
+#tabs{
+	width: 225px;
+	height: 30px;
+	position: absolute;
+	left:131px ;
+	bottom: 1px;
+}
+#tabs .tab{
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	border: 1px solid #FFFFFF;
+	float: left;
+	margin: 0 10px;	
+}
+#tabs .tab.dian{
+	background: red;
+}
+.btn{
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	background: #666666;
+	color: #FFFFFF;
+	font-size: 20px;
+	text-align: center;
+	position: absolute;
+	cursor: pointer;
+}
+.zuobtn{
+	left: 10px;
+	bottom: 45%;
+}
+.youbtn{
+	right: 10px;
+	bottom: 45%;
+}

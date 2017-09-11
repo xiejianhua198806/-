@@ -1,0 +1,191 @@
+html,
+body {
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+h1,
+h2,
+h3 {
+	padding: 0;
+	margin: 0;
+}
+
+.clearboth:after {
+	display: block;
+	content: ".";
+	clear: both;
+	overflow: hidden;
+	height: 0;
+	visibility: hidden;
+}
+
+button {
+	background: #990000;
+}
+
+.redbg {
+	background: #990000;
+	flex: 2;
+	-webkit-flex: 2;
+	-o-flex: 2;
+	-moz-flex: 2;
+}
+
+.mainPage {
+	height: 100%;
+	display: flex;
+	display: -webkit-flex;
+	display: -moz-flex;
+	flex-direction: column;
+	-webkit-flex-direction: column;
+	-moz-flex-direction: column;
+}
+
+.mainPage header {
+	height: 4rem;
+	background: #900;
+	text-align: center;
+	color: #fff;
+	position: relative;
+	line-height: 4rem;
+}
+
+.mainPage footer {
+	height: 4rem;
+	background: #666;
+	position: relative;
+	color: #fff;
+}
+
+.mainPage article {
+	flex: 1;
+	-webkit-flex: 1;
+	-o-flex: 1;
+	-moz-flex: 1;
+	background: #ffe;
+	display: flex;
+	display: -webkit-flex;
+	display: -moz-flex;
+	flex-direction: column;
+	-webkit-flex-direction: column;
+	-moz-flex-direction: column;
+}
+
+.classlist_nav {
+	height: 3rem;
+	background: #999;
+	line-height: 3rem;
+	font-size: 1.5rem;
+	letter-spacing: 1.5rem;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.classlist_nav .iconfont {
+	font-size: 1.5rem;
+}
+
+.classlist_box {
+	flex: 1;
+	-webkit-flex: 1;
+	-o-flex: 1;
+	-moz-flex: 1;
+	background: #ccc;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.floatleft {
+	float: left;
+}
+
+.floatright {
+	float: right;
+}
+
+.posleft {
+	position: absolute;
+	left: 0;
+}
+
+.posright {
+	position: absolute;
+	right: 0;
+}
+
+.btnbox {
+	line-height: 0;
+	height: 100%;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+}
+
+.btnbox button {
+	height: 80%;
+	margin-top: 10%;
+	margin-left: 0.2rem;
+	margin-right: 0.2rem;
+	color: #fff;
+	border-radius: 15%;
+	-webkit-border-radius: 15%;
+	-moz-border-radius: 15%;
+}
+
+.list_goodsbox {
+	width: 50%;
+}
+
+.list_goodsbox .imgbox {
+	margin: 10%;
+	overflow: hidden;
+}
+
+.list_goodsbox .imgbox img {
+	border: 0;
+	width: 120%;
+	margin-top: 50%;
+	margin-left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.list_goodsbox .titlebox {
+	margin: 5% 10%;
+	height: 2rem;
+	line-height: 2rem;
+	text-align: center;
+	overflow: hidden;
+}
+
+.list_goodsbox .pricebox {
+	margin: 5% 10%;
+	height: 2rem;
+	line-height: 2rem;
+	text-align: left;
+	overflow: hidden;
+	color: #900;
+}
+
+@media screen and (min-width: 750px) {
+	.mainPage article {
+		display: flex;
+		display: -webkit-flex;
+		display: -moz-flex;
+		flex-direction: row;
+		-webkit-flex-direction: row;
+		-moz-flex-direction: row;
+	}
+	.classlist_nav {
+		height: auto;
+		background: #999;
+		width: 20vw;
+	}
+	.classlist_box {
+		flex: 1;
+		-webkit-flex: 1;
+		-o-flex: 1;
+		-moz-flex: 1;
+		background: #ccc;
+	}
+}

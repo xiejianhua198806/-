@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>搜索功能</title>
+	</head>
+	<body>
+		<!--点击搜索通过地址栏传参数将跳转到新页面进行商品显示-->
+		<input type="text" name="" id="input" />
+		<button>搜索</button>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			$('button').on('click',function(){
+				var text=encodeURI($('input').val());
+				window.location="index2.html?+selectText="+text;
+			});
+		</script>
+	</body>
+</html>
